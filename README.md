@@ -141,18 +141,34 @@ And below is an example of what the data in a log file, 2018-11-12-events.json, 
 
 ## Song play example queries
 
-Simple queries might include number of users with each membership level.
+Selects the songs (show song_id) those are listened by user.
 
-`SELECT COUNT(level) FROM users;`
+`%sql SELECT songplay.song_id FROM song join songplay on song.song_id = songplay.song_id`
 
-Day of the week music most frequently listened to.
+Select the song where song_id and artist_is are not null.
+`%sql SELECT * FROM songplay where song_id is NOT NULL and artist_id is NOT NULL LIMIT 5;`
 
-`SELECT COUNT(weekday) FROM time;`
+Find number of users at each location.
+`%sql SELECT COUNT(DISTINCT user_id), location FROM songplay GROUP BY location`
 
-Or, hour of the day music most often listened to.
+Find the location where maximum users are listening.
+`%sql SELECT * FROM (SELECT COUNT(DISTINCT user_id) AS user_id_count, location FROM songplay GROUP BY location ORDER BY user_id_count DESC) AS userbylocation LIMIT 1`
 
-`SELECT COUNT(hour) FROM time;`
+Find the number of songs listened by location.
+`%sql SELECT COUNT(DISTINCT song_id) , location FROM songplay GROUP BY location`
+
+Find howmany users have free membership and paid membership.
+`%sql SELECT COUNT(DISTINCT user_id), level FROM songplay GROUP BY level`
+
 
 <br>
 
+## Project Execution Steps:
 
+* Run create_tables.py
+* Run test.ipynb to check that database and tables are created properly.
+* Restart the notebook.
+* Run etl.py
+* Run test.ipynb to check data has been inserted correctly. and check the results of the quries.
+
+#### NOTE: test.ipynb, etl.ipynb, or etl.py won't run until create_tables.py has been run at least once to create the sparkifydb database, which these other files connect to.
