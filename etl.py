@@ -7,6 +7,17 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+          Description: This function can be used to read the file in the filepath (data/song_data)
+          to get the user and time info and used to populate the song, and artist table tables.
+
+          Arguments:
+              cur: the cursor object.
+              filepath: song data file path.
+
+          Returns:
+              None
+    """
     # open song file
     df = pd.DataFrame([pd.read_json(filepath,  typ='series')])
 
@@ -20,6 +31,18 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+          Description: This function can be used to read the file in the filepath (data/log_data)
+          to get the user and time info and used to populate the users and time dimension tables.
+          Finally this function inserts records in songplay fact table.
+
+          Arguments:
+              cur: the cursor object.
+              filepath: log data file path.
+
+          Returns:
+              None
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -63,6 +86,20 @@ def process_log_file(cur, filepath):
 
 
 def process_data(cur, conn, filepath, func):
+    """
+        Description: This function can be used to read the file in the filepath given in the argument.
+        This function gets all the .json file names present in the filepath and stores in array.
+        Then it will iterate over each file and calls the approprite function given in the argument where data will be extracted and stored in proper tables.
+         
+        Arguments:
+            cur: the cursor object.
+            conn: connection object.
+            filepath: log data/song data file path.
+            func: process_log_file or process_song_file function
+
+        Returns:
+            None
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):

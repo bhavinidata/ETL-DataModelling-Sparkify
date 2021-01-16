@@ -18,7 +18,7 @@ They'd like a data engineer to create a Postgres database with tables designed t
 The purpose of the database is to model song and log datasets (originaly stored in JSON format) with a star schema optimised for queries on song play analysis.
 The star schema contains 1 fact table (songplay), and 4 dimension tables (users, song, artist, time).
 
-** ER Diagram has been draw with dbdiagram.io (https://dbdiagram.io/d).
+** ER Diagram has been drawn with dbdiagram.io (https://dbdiagram.io/d).
 
 ![](ER_Diagram.png?raw=true)
 
